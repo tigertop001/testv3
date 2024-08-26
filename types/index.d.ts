@@ -22,7 +22,7 @@ interface ViteEnv {
     VITE_ROUTER_HISTORY: string;
     VITE_CDN: boolean;
     VITE_COMPRESSION: ViteCompression;
-    VITE_PROXY_API?: Array<any>;
+    VITE_PROXY_API?: string | Array<[string, string]> | undefined;
     VITE_ESBUILD?: boolean;
     VITE_BUILD_COMPRESS?: "none" | "yes"; // none 不gzip， yes 打包gzip
     VITE_CLIENT_TYPE?: "h5" | "pc"; // 打包是pc还是h5

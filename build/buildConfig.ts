@@ -14,9 +14,9 @@ export function buildConfig(VITE_ESBUILD: boolean, isAppMode: boolean): BuildOpt
         assetsInlineLimit: 0,
         rollupOptions: {
           output: {
-            chunkFileNames: "assets/[name]-[hash].js",
-            entryFileNames: "assets/[name]-[hash].js",
-            assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
+            chunkFileNames: "assets/[name].[hash].js",
+            entryFileNames: "assets/[name].[hash].js",
+            assetFileNames: "assets/[ext]/[name].[hash].[ext]",
             // manualChunks: id => {
             //   for(const item of PACKAGES){
             //     if (id.includes(item)) {
@@ -56,20 +56,37 @@ export function buildConfig(VITE_ESBUILD: boolean, isAppMode: boolean): BuildOpt
       };
 }
 
+
+interface ProxyConfig {
+  target: string;
+  changeOrigin: boolean;
+  rewrite: (path: string) => string;
+}
+
 // const listArr = [
-//   ["/api", "http://saas.test1.h5b.adre45.com/api"],
-//   ["/oss", "http://saas.test1.h5b.adre45.com/oss"],
+//   ["/api", "http://test.baidu.com/api"],
+//   ["/oss", "http://test.baidu.com/oss"],
 // ];
 // 获取环境配置文件并换成vite 需要的格式
-export const proxyFun = list => {
-  const listArr = JSON.parse(list);
+export const proxyFun = (list: string | Array<[string, string]> | undefined): { [key: string]: ProxyConfig } => {
+  let listArr: [string, string][] = [];
 
-  const pArr = {};
+  if (typeof list === 'string') {
+    try {
+      listArr = JSON.parse(list);
+    } catch (error) {
+      console.error("Failed to parse VITE_PROXY_API as JSON", error);
+    }
+  } else if (Array.isArray(list)) {
+    listArr = list;
+  }
+
+  const pArr: { [key: string]: ProxyConfig } = {};
   for (const [prefix, target] of listArr) {
     pArr[prefix] = {
       target: target,
       changeOrigin: true,
-      rewrite: path => path.replace(new RegExp(`^${prefix}`), ""),
+      rewrite: (path: string) => path.replace(new RegExp(`^${prefix}`), ""),
     };
   }
   return pArr;

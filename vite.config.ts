@@ -1,5 +1,6 @@
 import { defineConfig, UserConfig,loadEnv } from 'vite'
 import { warpperEnv } from "./build";
+import { setAppInfo } from "./build/script/setAppInfo";
 import path from 'path'
 import dotenv from 'dotenv'
 import { changeRoute } from "./build/script/changeRoute";
@@ -40,13 +41,21 @@ function loadEnvConfig(mode: string, command: string) {
 }
 
 export default defineConfig(({ command, mode }) => {
+  console.log('----mode--01--',mode)
+  setMode(mode);
+  const { __APP_INFO__ } = setAppInfo(mode);
   const { envVars, isBuild } = loadEnvConfig(mode, command)
   const viteEnv = warpperEnv(loadEnv(mode, envDir));
-  const { VITE_BUILD_COMPRESS,VITE_ESBUILD } = viteEnv;
+  const entryJs = isBuildPc() ? "src/mainPc.ts" : "src/main.ts";
+  console.log('----mode--02--',mode)
+  console.log('----entryJs--01--',entryJs)
+  console.log('----entryJs--012--',entryJs)
+  const { VITE_BUILD_COMPRESS,VITE_ESBUILD,VITE_PROXY_API } = viteEnv;
    // 将 VITE_ESBUILD 转换为布尔值
    const esbuildEnabled = VITE_ESBUILD === true;
   // 动态修改路由配置
   changeRoute();
+
   return {
     plugins: [
       svgSfc(),
@@ -89,13 +98,14 @@ export default defineConfig(({ command, mode }) => {
       viteBuildInfo(),
       createHtmlPlugin({
         minify: isBuild,
-        entry: "src/main.ts", // 入口文件
+        entry: entryJs, // 入口文件
         inject: {
           // Inject data into ejs template
           data: {
             lastBuildTime: dayjs().format("YYYY-MM-DD HH:mm:ss"),
           },
         },
+        
       }),
     ],
     build: buildConfig(esbuildEnabled, isAppMode()),
@@ -109,19 +119,14 @@ export default defineConfig(({ command, mode }) => {
       https: false,
       port: '8080',
       host: '0.0.0.0',
-      proxy: {
-        '/api': {
-          target: 'http://jsonplaceholder.typicode.com',
-          changeOrigin: true,
-          rewrite: (path: string) => path.replace(/^\/api/, '')
-        }
-      }
+      proxy: proxyFun(VITE_PROXY_API),
     },
     css: {
       devSourcemap: !isBuild
     },
     define: {
-      'process.env': envVars
+      'process.env': envVars,
+      __APP_INFO__: JSON.stringify(__APP_INFO__),
     }
   } as unknown as UserConfig
 })
