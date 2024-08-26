@@ -14,9 +14,9 @@ export function buildConfig(VITE_ESBUILD: boolean, isAppMode: boolean): BuildOpt
         assetsInlineLimit: 0,
         rollupOptions: {
           output: {
-            chunkFileNames: "assets/[name].[hash].js",
-            entryFileNames: "assets/[name].[hash].js",
-            assetFileNames: "assets/[ext]/[name].[hash].[ext]",
+            chunkFileNames: "assets/[name]-[hash].js",
+            entryFileNames: "assets/[name]-[hash].js",
+            assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
             // manualChunks: id => {
             //   for(const item of PACKAGES){
             //     if (id.includes(item)) {
