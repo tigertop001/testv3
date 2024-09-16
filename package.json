@@ -37,6 +37,7 @@
     "dotenv": "^16.4.5",
     "fs-extra": "^11.2.0",
     "idb": "^8.0.0",
+    "node-html-parser": "^6.1.13",
     "node-localstorage": "^3.0.5",
     "picocolors": "^1.1.0",
     "pinia": "^2.1.7",
