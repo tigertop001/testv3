@@ -1,5 +1,5 @@
 import 'virtual:uno.css'
-import './style/indexH5.scss'
+import '@/style/pc/index.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -14,5 +14,3 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
-console.log(theme.value, '****theme---pc----', theme)
-console.log('setTheme--pc----', setTheme(theme.value))

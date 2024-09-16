@@ -15,11 +15,11 @@ const allData = {
         pageCode: 'm-2-2'
       },
       {
-        characterData: '1',
-        pageCode: 'm-3-3'
+        characterData: '3',
+        pageCode: 'm-3-2'
       },                
       {
-        characterData: '1',
+        characterData: '4',
         pageCode: 'm-4-1'
       }
     ]

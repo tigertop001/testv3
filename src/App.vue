@@ -1,12 +1,8 @@
 <script setup lang="ts">
-// import HomeView from '@/views/home/homeIndex.vue' // HomeView
 // keep-alive 页面, 写组件名
-import { ref, computed } from 'vue'
-import { tabFixedId } from '@/router/pageId'
-const names = ref<Array<string>>(['homeIndex'])
-const fixedId = computed(() => tabFixedId.value)
+import { ref } from 'vue'
+const names = ref<RegExp>(/^k-/)
 
-console.log('tabFixedId--01--', fixedId.value)
 </script>
 
 <template>
@@ -15,7 +11,6 @@ console.log('tabFixedId--01--', fixedId.value)
       <component :is="Component" />
     </keep-alive>
   </RouterView>
-  <hr />
 </template>
 
 <style scoped></style>

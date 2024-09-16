@@ -41,15 +41,11 @@ function loadEnvConfig(mode: string, command: string) {
 }
 
 export default defineConfig(({ command, mode }) => {
-  console.log('----mode--01--',mode)
   setMode(mode);
   const { __APP_INFO__ } = setAppInfo(mode);
   const { envVars, isBuild } = loadEnvConfig(mode, command)
   const viteEnv = warpperEnv(loadEnv(mode, envDir));
   const entryJs = isBuildPc() ? "src/mainPc.ts" : "src/main.ts";
-  console.log('----mode--02--',mode)
-  console.log('----entryJs--01--',entryJs)
-  console.log('----entryJs--012--',entryJs)
   const { VITE_BUILD_COMPRESS,VITE_ESBUILD,VITE_PROXY_API } = viteEnv;
    // 将 VITE_ESBUILD 转换为布尔值
    const esbuildEnabled = VITE_ESBUILD === true;

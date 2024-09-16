@@ -26,10 +26,14 @@ export const getPageId = (page: string) => {
     if (arr[i].characterData == page && typeof arr[i].pageCode === 'string') {
       // const splitTemplateNumber = arr[i].pageCode ? arr[i].pageCode.split('-') : []
       const splitTemplateNumber = (arr[i].pageCode as string).split('-')
+      console.log('***splitTemplateNumber-***01*', splitTemplateNumber)
       if (splitTemplateNumber.length === 3) {
+        console.log(splitTemplateNumber,'***splitTemplateNumber-***02*', splitTemplateNumber.length)
         id = parseInt(splitTemplateNumber[2], 10)
+        console.log('***id-***03*', id)
         break
       }
+      console.log('***id-***04*', id)
     }
   }
   if (page != '1') console.log(`当前多模版页面使用编号: m-${page}-${id}`)
@@ -60,7 +64,8 @@ export function usePageId(asyncPageList: AsyncPageList) {
   const route = useRoute()
   const currentRouteName = (route.meta.page || '') as string
   const template = computed(() => {
-    const temp = 'temp' + getPageId(currentRouteName)
+    const temp = 't' + getPageId(currentRouteName)
+    console.log('++++temp+++', temp)
     // 如果后端返回模板编号万一有错误，我们前端没有这个模板，就默认显示模版1
     return asyncPageList[temp] ? temp : Object.keys(asyncPageList)[0]
   })
