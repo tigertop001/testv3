@@ -10,7 +10,7 @@ const { template, templates } = usePageId({
 <template>
   <div>{{ templates }}</div>
   <div>-----------</div>
-  <div>{{ template }}</div>
+  <div>{{ template }}=</div>
   <component :is="templates[template]"></component>
 </template>
 

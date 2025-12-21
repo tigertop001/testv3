@@ -3,6 +3,7 @@
   <IconCommunity /><br />
   <img :src="IconDocumentation" alt="icon" /><br />
   <pre>{{ myIconRaw }}</pre>
+  <div v-html="myIconRaw" style="display: inline-block; width: 50px; height: 50px;"></div>
 </template>
 
 <script setup lang="ts">
